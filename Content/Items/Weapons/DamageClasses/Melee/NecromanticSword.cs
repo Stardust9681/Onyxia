@@ -38,7 +38,7 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Melee
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (crit)
+            if (crit && (!target.friendly && !target.CountsAsACritter && target.type != NPCID.TargetDummy && target.canGhostHeal))
             {
                 player.statLife += damage / 5;
                 player.HealEffect(damage / 5);

@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Onyxia.Content.Items.Weapons.DamageClasses.Melee
 {

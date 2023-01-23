@@ -111,10 +111,7 @@ namespace Onyxia.Core.Utils
                 }
             }
             text.SetData(c.ToArray());
-            string path0 = System.IO.Directory.GetCurrentDirectory();
-            Main.NewText(path0);
-            string path = ReLogic.Content.AssetPathHelper.CleanPath("C:\\Users\\Stard\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\Onyxia\\Assets\\noise.png");
-            Main.NewText(path);
+            string path = System.IO.Directory.GetCurrentDirectory();
             using (System.IO.FileStream fStream = new System.IO.FileStream(path, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
             {
                 text.SaveAsPng(fStream, _width, _height);

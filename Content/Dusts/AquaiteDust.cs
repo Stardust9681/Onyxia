@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace Onyxia.Content.Dusts
 {
-    class AquaiteDust : ModDust
+    public class AquaiteDust : ModDust
     {
         public override void OnSpawn(Dust dust)
         {

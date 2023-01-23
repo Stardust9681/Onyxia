@@ -14,7 +14,6 @@
     <Folder Include="Content\Effects\" />
     <Folder Include="Content\Items\Armour\" />
     <Folder Include="Content\Items\Tiles\" />
-    <Folder Include="Content\Items\Weapons\DamageClasses\Magic\" />
     <Folder Include="Content\Items\Weapons\DamageClasses\Summoner\" />
     <Folder Include="Content\Items\Weapons\DamageClasses\Throwing\" />
     <Folder Include="Content\Items\Tools\" />
