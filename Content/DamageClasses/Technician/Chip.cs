@@ -81,7 +81,8 @@ namespace Onyxia.Content.DamageClasses.Technician
     {
         public override string Texture => "Terraria/Images/Item_0";
         public virtual void UpdateShieldStats(ref uint shieldMax, ref uint cooldownMax, ref float regen, ref bool? knockback) { }
-
+        public virtual bool AppliesToItem(Item item) { return true; }
+        public virtual void ModifyProj(Projectile p) { }
     }
 
     [Autoload(false)]

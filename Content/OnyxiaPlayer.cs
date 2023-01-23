@@ -107,8 +107,6 @@ namespace Onyxia.Content
         private int dashCDTimer;
         public override void PreUpdateMovement()
         {
-            //Main.NewText((dashData.speed > 0) + " : " + (Player.dashType == 0) + " : " + (!Player.mount.Active) + " : " + (dashCDTimer <= 0) + " : " + (dashDirection != Direction.NONE));
-            //Main.NewText((dashData.speed > 0) && (Player.dashType == 0) && (!Player.mount.Active) && (dashData.cooldown <= 0) && (dashDirection != Direction.NONE));
             if((dashData.speed > 0) && (Player.dashType == 0) && (!Player.mount.Active) && (dashCDTimer <= 0) && (dashDirection != Direction.NONE))// && !Player.CCed)
             {
                 bool dashStarted = true;

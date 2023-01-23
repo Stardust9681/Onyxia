@@ -181,9 +181,51 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
             return true;
         }
 
+        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+        {
+            Projectile p = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
+            for (int i = 0; i < ModSlots; i++)
+            {
+                Item? it = modules[i];
+                if (it == null || it.IsAir || it.ModItem == null) continue;
+                (it.ModItem as Chip)?.ModifyProj(p);
+            }
+            return false;
+        }
+        public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+        {
+            for (int i = 0; i < ModSlots; i++)
+            {
+                Item? it = modules[i];
+                if (it == null || it.IsAir || it.ModItem == null) continue;
+                it.ModItem?.ModifyShootStats(player, ref position, ref velocity, ref type, ref damage, ref knockback);
+            }
+        }
+
         public ref Item GetChip(int index)
         {
             return ref modules[index%ModSlots];
+        }
+
+        public virtual bool AllowChip(Item item, int index) { return true; }
+
+        public override void SaveData(TagCompound tag)
+        {
+            for(int i = 0; i < ModSlots; i++)
+            {
+                tag.Add("chip::" + i, GetChip(i));
+            }
+        }
+        public override void LoadData(TagCompound tag)
+        {
+            for (int i = 0; i < ModSlots; i++)
+            {
+                if (!tag.ContainsKey("chip::" + i))
+                {
+                    modules[i] = new Item();
+                }
+                modules[i] = tag.Get<Item>("chip::" + i);
+            }
         }
     }
 

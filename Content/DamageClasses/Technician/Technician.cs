@@ -58,7 +58,7 @@ namespace Onyxia.Content.DamageClasses.Technician
                 if (Projector_Texture == null || Projector_Texture.Value.Name != newText)
                     Projector_Texture = ModContent.Request<Texture2D>(newText);
                 Color drawColor = drawInfo.drawPlayer.GetModPlayer<Technician>().shieldType.DamageColour;
-                Point pos = (drawInfo.drawPlayer.MountedCenter + new Vector2(0f, -20f) - Main.screenPosition).ToPoint() - new Point(32, (int)(32f+drawInfo.drawPlayer.gfxOffY));
+                Point pos = (drawInfo.drawPlayer.MountedCenter - Main.screenPosition).ToPoint() - new Point(32, (int)(32f+drawInfo.drawPlayer.gfxOffY));
                 drawInfo.DrawDataCache.Add(new DrawData(Projector_Texture.Value, new Rectangle(pos.X, pos.Y, 64, 64), null, drawColor, 0f, Vector2.Zero, SpriteEffects.None, 0));
             }
             public override Position GetDefaultPosition()
@@ -99,6 +99,9 @@ namespace Onyxia.Content.DamageClasses.Technician
         private uint _shMaxInc = 0;
         private uint _cdTimeInc = 0;
         private float _shReg = 0;
+        /// <summary>
+        /// Shield Ignore Knockback
+        /// </summary>
         private bool? _shIgnKB = null;
 
         public uint ShieldMax => shield.shieldsMax + _shMaxInc;
@@ -388,6 +391,8 @@ namespace Onyxia.Content.DamageClasses.Technician
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (!Main.LocalPlayer.GetModPlayer<Technician>().hasShield)
+                return;
             Rectangle drawRect = new Rectangle();
             drawRect.Location = new Point(Main.screenWidth - 91, 101 + (int)(24f * (1 - shieldPercent)));
             drawRect.Height = (int)(24f * shieldPercent);

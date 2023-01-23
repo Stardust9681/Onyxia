@@ -66,9 +66,9 @@ namespace Onyxia.Content.DamageClasses.Technician
         }
         public ChipUIItem(TechItem tItem, int index, ref Item i)
         {
-            baseItem = tItem;
+            baseItem = tItem; //Item that this chip belongs to
             this.index = index;
-            item = i;
+            item = i; //Item/Chip that corresponds to this
             //module = c;
         }
         public Chip Module
@@ -100,7 +100,9 @@ namespace Onyxia.Content.DamageClasses.Technician
                 if(!justSwapped && mouseHover)
                 {
                     if((Main.mouseItem.IsAir ^ item.IsAir) ||
-                        (Main.mouseItem.ModItem?.GetType().IsAssignableTo(typeof(Chip))) == true)
+                        (Main.mouseItem.ModItem?.GetType().IsAssignableTo(typeof(Chip))) == true &&
+                        (Main.mouseItem.ModItem as Chip)?.AppliesToItem(baseItem.Item) == true &&
+                            baseItem.AllowChip(Main.mouseItem, index)) //bool? == true
                     {
                         /*
                         if (Main.mouseItem.IsAir)
