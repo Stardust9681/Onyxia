@@ -42,14 +42,21 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Melee
         }
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if(Main.rand.NextFloat() < .1f)
+            if(Main.rand.NextFloat() < .2f)
             {
                 Dust d = Dust.NewDustDirect(hitbox.Location.ToVector2(), hitbox.Width, hitbox.Height, DustID.YellowStarDust);
-                d.velocity = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * 2.8f;
+                d.velocity = (d.position - player.Center) * .08f;
                 d.scale *= 2f;
                 d.noGravity = true;
             }
             base.MeleeEffects(player, hitbox);
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ModContent.ItemType<Materials.AstralyteShard>(), 12).
+                AddTile(TileID.Anvils).
+                Register();
         }
     }
 }

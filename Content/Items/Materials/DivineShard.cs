@@ -20,7 +20,7 @@ namespace Onyxia.Content.Items.Materials
         {
             CreateRecipe(5).
                 AddIngredient(ItemID.CrystalShard, 3).
-                AddIngredient(ModContent.ItemType<AstrallyteShard>(), 2).
+                AddIngredient(ModContent.ItemType<AstralyteShard>(), 2).
                 AddIngredient(ItemID.SoulofLight).
                 AddTile(TileID.MythrilAnvil).
                 Register();

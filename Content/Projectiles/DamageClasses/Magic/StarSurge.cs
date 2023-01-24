@@ -33,18 +33,10 @@ namespace Onyxia.Content.Projectiles.DamageClasses.Magic
                 Dust d = Dust.NewDustDirect(new Vector2(Projectile.position.X + MathHelper.Lerp(0, Projectile.width, normDust * 20), Projectile.Center.Y), 1, 1, ModContent.DustType<Dusts.SparkleDust>());
                 d.velocity = Vector2.Zero;
                 d.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
+                d.fadeIn = 180;
             }
             if(normDust < .6f)
             {
-                /*Dust d = Dust.NewDustDirect(new Vector2(Projectile.position.X + MathHelper.Lerp(0, Projectile.width, normDust * 4 / 3), Projectile.Center.Y), 1, 1, ModContent.DustType<Dusts.SparkleDust>());
-                d.color = new Color(246, 116, 247);
-                d.scale = MathHelper.Lerp(.7f, .9f, normDust * 4 / 3);
-                d.frame.X = 10;
-                d.velocity = Projectile.velocity * .67f;
-                d.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
-                d.fadeIn = 12;
-                d.alpha = 50;*/
-
                 Dust d = Dust.NewDustDirect(new Vector2(Projectile.position.X + MathHelper.Lerp(Projectile.width/4, Projectile.width*3/4, normDust * 5 / 3), Projectile.Center.Y), 1, 1, DustID.YellowStarDust);
                 d.velocity = Projectile.velocity * .67f;
                 d.scale *= normDust * 10 / 3;

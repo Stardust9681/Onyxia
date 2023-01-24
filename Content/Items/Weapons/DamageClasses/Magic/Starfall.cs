@@ -40,5 +40,13 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Magic
             }
             return false;
         }
+        public override void AddRecipes()
+        {
+            CreateRecipe(1).
+                AddIngredient(ModContent.ItemType<Materials.AstralyteShard>(), 8).
+                AddIngredient(ItemID.Book, 5).
+                AddTile(TileID.Bookcases).
+                Register();
+        }
     }
 }

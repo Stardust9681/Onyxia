@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace Onyxia.Content.Items.Materials
 {
-    public class AstrallyteShard : ModItem
+    public class AstralyteShard : ModItem
     {
         public override void SetDefaults()
         {
@@ -19,7 +19,7 @@ namespace Onyxia.Content.Items.Materials
         }
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            if (Item.position.Y < Main.maxTilesY * .063f)
+            if (Item.position.Y < Main.worldSurface * .35f)
                 maxFallSpeed = 0.1f;
             else
                 maxFallSpeed = 1f;

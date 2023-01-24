@@ -13,6 +13,9 @@ using Terraria.Audio;
 
 namespace Onyxia.Content
 {
+    //Discussion: ModProjectile Instead?
+    //Felt like making these Entities, but Projectiles do already have sync methods and such.
+    //Let me know I guess.
     public abstract class EntityPlatform : Entity
     {
         public int TimeLeft
