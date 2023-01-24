@@ -20,21 +20,6 @@ namespace Onyxia.Content.Dusts
         }
         public override bool Update(Dust dust)
         {
-            /*if (dust.noGravity)
-            {
-                dust.position.Y += dust.velocity.Y;
-                dust.velocity *= (1 - .00164f);
-            }
-            else
-                dust.position.Y += .4f;
-            dust.position.X += dust.velocity.X;
-            if (dust.velocity.LengthSquared() < 20f)
-                dust.scale -= .006f;
-            else
-                dust.scale -= .018f;
-            dust.rotation += .01f;
-            if (dust.scale < .4f)
-                dust.active = false;*/
             if (dust.fadeIn > 0)
             {
                 dust.scale += .01f;

@@ -14,7 +14,7 @@ namespace Onyxia.Content.DamageClasses.Technician
 {
     public abstract class TechDamageClass : DamageClass
     {
-        public abstract Color DamageColour { get; }// => Color.White;
+        public abstract Color DamageColour { get; }
         public override void SetStaticDefaults()
         {
             ClassName.SetDefault(GetType().Name + " damage.");

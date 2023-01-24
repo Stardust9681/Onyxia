@@ -28,6 +28,7 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Magic
             Item.shoot = ModContent.ProjectileType<Projectiles.DamageClasses.Magic.StarSurge>();
             Item.autoReuse = true;
             Item.noMelee = true;
+            Item.rare = 3;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {

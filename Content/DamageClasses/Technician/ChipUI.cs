@@ -14,21 +14,6 @@ using ReLogic.Graphics;
 
 namespace Onyxia.Content.DamageClasses.Technician
 {
-    /*
-    public class ChipUIState : UIState {
-        ChipUIItem[] chips;
-        public ChipUIState(TechItem item) {
-            chips = new ChipUIItem[item.ModSlots];
-            for(int i = 0; i < item.ModSlots; i++) {
-                if(item.GetModule(i, out Chip c)) {
-                    chips[i] = new ChipUIItem(c); } } } }
-    public class ChipUIItem : UIElement {
-        public Chip ChipItem {
-            get;
-            private set; }
-        public ChipUIItem(Chip c) {
-            ChipItem = c; } }
-    */
     public class ChipUIState : UIState
     {
         TechItem tItem;
@@ -152,10 +137,10 @@ namespace Onyxia.Content.DamageClasses.Technician
             }
         }
 
-        public override void MouseOver(UIMouseEvent evt)
+        /*public override void MouseOver(UIMouseEvent evt)
         {
             //Draw Tooltip '~'
-        }
+        }*/
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             bool mouseHover = ContainsPoint(Main.MouseScreen);
@@ -175,9 +160,6 @@ namespace Onyxia.Content.DamageClasses.Technician
 
             if (item == null || item.IsAir) return;
 
-            //drawRect.Location += new Point(3, 3);
-            //drawRect.Width -= 6;
-            //drawRect.Height -= 6;
             if (itemTex == null)
                 itemTex = ModContent.Request<Texture2D>(Module.Texture);
             else
@@ -203,14 +185,9 @@ namespace Onyxia.Content.DamageClasses.Technician
             this.Width.Set(lng*size, 0);
             this.Height.Set(size*1.5f, 0);
             rect = new Rectangle((int)(HAlign * Main.screenWidth), (int)(VAlign * Main.screenHeight), (int)Width.Pixels, (int)Height.Pixels);
-            //float vAdj = (.5f * (float)size / Main.screenHeight);
             for (int i = 0; i < lng; i++)
             {
-                //Chip c = tItem.GetChip(i);
-                //Main.NewText(c.Item.Name);
                 ChipUIItem chip = new ChipUIItem(tItem, i, ref tItem.GetChip(i));
-                //chip.HAlign = HAlign + ((float)i * (float)size / (float)Main.screenWidth);
-                //chip.VAlign = VAlign + vAdj;
                 chip.Width.Set(size, 0);
                 chip.Height.Set(size, 0);
                 Append(chip);
@@ -249,7 +226,6 @@ namespace Onyxia.Content.DamageClasses.Technician
 
             Vector2 mouseScreen = Main.MouseScreen;
 
-            //AdjustPos(mouseScreen, Main.mouseLeft ? (ContainsPoint(mouseScreen) || drag) : !drag);
             if(Main.mouseLeft)
             {
                 if (ContainsPoint(mouseScreen) || drag)
@@ -269,24 +245,19 @@ namespace Onyxia.Content.DamageClasses.Technician
             float vAdj = (.5f * (float)size / Main.screenHeight);
             for (int i = 0; i < Elements.Count; i++)
             {
-                //UIElement chip = Elements[i];
                 Elements[i].Top.Set(rect.Y + (int)(size * .5f), 0);
                 Elements[i].Left.Set(rect.X + (int)(i * size), 0);
-                //Elements[i].HAlign = HAlign + ((float)i * (float)size / (float)Main.screenWidth);
-                //Elements[i].VAlign = VAlign + vAdj;
             }
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            //Rectangle drawRect = rect;// new Rectangle((int)(this.HAlign * Main.screenWidth), (int)(this.VAlign * Main.screenHeight), (int)Width.Pixels, (int)Height.Pixels);
             spriteBatch.Draw(TextureAssets.ChatBack.Value, rect, Color.White*.7f);
             string title = "Tinkering Menu";
             DynamicSpriteFont dSpFn = FontAssets.MouseText.Value;
             Vector2 offset = dSpFn.MeasureString(title);
-            float xMult = MathHelper.Clamp((float)rect.Width / offset.X, 0f, 1f);// * offset.X;
+            float xMult = MathHelper.Clamp((float)rect.Width / offset.X, 0f, 1f);
             offset.X *= xMult;
             Vector2 position = new Vector2(rect.Center.X - (offset.X * .5f), rect.Top + 4f);
-            //Main.NewText(title + " : " + offset.ToPoint() + " : " + xMult + " : " + position.ToPoint());
             spriteBatch.DrawString(dSpFn, title, position, Main.OurFavoriteColor * .95f, 0, Vector2.Zero, new Vector2(xMult, 1), SpriteEffects.None, 0f);
         }
     }

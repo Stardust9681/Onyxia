@@ -42,12 +42,13 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Melee
         }
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if(Main.rand.NextFloat() < .2f)
+            if(Main.rand.NextFloat() < .1f)
             {
-                Dust d = Dust.NewDustDirect(hitbox.Location.ToVector2(), hitbox.Width, hitbox.Height, DustID.YellowStarDust);
-                d.velocity = (d.position - player.Center) * .08f;
-                d.scale *= 2f;
+                Dust d = Dust.NewDustDirect(hitbox.Location.ToVector2(), hitbox.Width, hitbox.Height, ModContent.DustType<Dusts.SparkleDust>());
+                d.velocity = (d.position - player.Center) * .06f;
                 d.noGravity = true;
+                d.rotation = d.velocity.X;
+                d.fadeIn = 60;
             }
             base.MeleeEffects(player, hitbox);
         }

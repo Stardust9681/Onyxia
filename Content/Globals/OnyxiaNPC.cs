@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.ItemDropRules;
 
 namespace Onyxia.Content.Globals
 {
@@ -56,6 +57,13 @@ namespace Onyxia.Content.Globals
         public void AdjustSpeed(float aimMult)
         {
             spdMult = MathHelper.Lerp(spdMult, aimMult, .5f);
+        }
+
+        public override void ModifyGlobalLoot(GlobalLoot globalLoot)
+        {
+            //Core.Utils.ItemDropRuleNormal iDropRule = Core.Utils.ItemDropRuleNormal.Common(ItemID.Bone, .5f, 1, 2) as Core.Utils.ItemDropRuleNormal;
+            ///iDropRule.condition = new Core.Utils.ArbitraryCondition((DropAttemptInfo info) => info.player.ZoneDungeon && Main.hardMode, "In the Dungeon during Hardmode", true);
+            //globalLoot.Add(iDropRule);
         }
     }
 }

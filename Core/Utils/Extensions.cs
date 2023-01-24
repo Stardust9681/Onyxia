@@ -10,5 +10,6 @@ namespace Onyxia.Core.Utils
 {
     public static class Extensions
     {
+        public static bool IsLocallyOwned(this Projectile p) => p.owner == Main.myPlayer;
     }
 }
