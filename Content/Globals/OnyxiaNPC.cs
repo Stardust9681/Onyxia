@@ -6,6 +6,9 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.ItemDropRules;
+using Onyxia.Core.Utils;
+using Terraria.ModLoader.IO;
+using System.IO;
 
 namespace Onyxia.Content.Globals
 {
@@ -59,11 +62,18 @@ namespace Onyxia.Content.Globals
             spdMult = MathHelper.Lerp(spdMult, aimMult, .5f);
         }
 
-        public override void ModifyGlobalLoot(GlobalLoot globalLoot)
+        public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {
-            //Core.Utils.ItemDropRuleNormal iDropRule = Core.Utils.ItemDropRuleNormal.Common(ItemID.Bone, .5f, 1, 2) as Core.Utils.ItemDropRuleNormal;
-            ///iDropRule.condition = new Core.Utils.ArbitraryCondition((DropAttemptInfo info) => info.player.ZoneDungeon && Main.hardMode, "In the Dungeon during Hardmode", true);
-            //globalLoot.Add(iDropRule);
+            int[] validNPCs = new int[] {NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigHelmet, NPCID.AngryBonesBigMuscle, NPCID.DarkCaster,
+            NPCID.HellArmoredBones, NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesSword, NPCID.DiabolistRed, NPCID.DiabolistWhite,
+            NPCID.RustyArmoredBonesAxe, NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor, NPCID.RaggedCaster, NPCID.RaggedCasterOpenCoat,
+            NPCID.BlueArmoredBones, NPCID.BlueArmoredBonesMace, NPCID.BlueArmoredBonesNoPants, NPCID.BlueArmoredBonesSword, NPCID.Necromancer, NPCID.NecromancerArmored,
+            NPCID.Paladin, NPCID.BoneLee, NPCID.SkeletonSniper, NPCID.TacticalSkeleton, NPCID.CursedSkull, NPCID.GiantCursedSkull, NPCID.SkeletonCommando, NPCID.DungeonGuardian, NPCID.SkeletronHead, NPCID.SkeletronHand};
+            if(validNPCs.Contains(npc.type))
+                npcLoot.Add(ItemDropRuleNormal.Common<Items.Materials.NecromanticEssence>(.5f, 1, 2).SetCondition(new ArbitraryCondition((DropAttemptInfo info) => info.player.ZoneDungeon && Main.hardMode, "In the Dungeon, in Hardmode")));
+            validNPCs = new int[] { NPCID.Shark, NPCID.Crab, NPCID.Squid, NPCID.SeaSnail };
+            if (validNPCs.Contains(npc.type))
+                npcLoot.Add(ItemDropRuleNormal.Common<Items.Materials.MoteOfWater>(1, 1, 2).SetCondition(new ArbitraryCondition((DropAttemptInfo info) => info.player.ZoneBeach, "In Ocean")));
         }
     }
 }

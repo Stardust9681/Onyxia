@@ -18,6 +18,11 @@ namespace Onyxia.Content
         //public bool bloodLotus;
         //public int bloodLotusCounter;
         //public int bloodLotusHealth;
+        /// <summary>
+        /// Determines if damage dealt to player should be split between health and mana.
+        /// Set/Used by Mana Shield and Mana Protector.
+        /// </summary>
+        public float manaShield; //Reset = false;
 
         public override void ResetEffects()
         {
@@ -34,7 +39,61 @@ namespace Onyxia.Content
             else
                 dashDirection = Direction.NONE;
 
+            manaShield = 0f;
+
             //bloodLotus = false;
+        }
+
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
+        {
+            if (Player.immune)
+                return false;
+            if(manaShield > 0)
+            {
+                int manaDefence = (int)((Player.statDefense * .67f) + (Player.statManaMax2 * .2f));
+                int def = (Player.statDefense / 2) + manaDefence;
+                int dmg = (int)Core.Utils.Extensions.GetRelativeDamage(damage * manaShield, def);
+                //Remaining mana, if applicable
+                int ext = Player.statMana - dmg;
+                damage = (int)(damage * (1f - manaShield));
+                //Damage to be done to health
+                if (dmg <= 0)
+                    dmg = 1;
+                //If there is no extra damage dealt to MP
+                if (ext > 0)
+                {
+                    Player.statMana = ext;
+                    CombatText.NewText(Player.getRect(), new Color(new Vector3(0, 70, 200)), dmg, crit);
+                    
+                    /*if(!Player.noKnockback)
+                    {
+                        if (hitDirection != 0)
+                        {
+                            Player.velocity.X = 4.5f * hitDirection;
+                            Player.velocity.Y = -3.5f;
+                            Player.fallStart = (int)(Player.position.Y / 16);
+                        }
+                        Player.immune = true;
+                        Player.AddImmuneTime(cooldownCounter, Player.longInvince ? 90 : 60);
+                    }
+                    return false;*/
+                }
+                //If damage exceeds MP
+                else
+                {
+                    CombatText.NewText(Player.getRect(), new Color(new Vector3(0, 70, 200)), Player.statMana, crit);
+                    Player.statMana = 0;
+                    damage -= ext;
+                }
+                float rand = Main.rand.NextFloat();
+                for(int i = 0; i < 2 + (int)(3*rand); i++)
+                {
+                    Dust d = Dust.NewDustDirect(Player.Center, 1, 1, DustID.ManaRegeneration);
+                    d.noGravity = true;
+                    d.velocity = Vector2.UnitX.RotatedBy(rand * MathHelper.TwoPi) * Main.rand.NextFloat(2f, 3f);
+                }
+            }
+            return true;
         }
         public void OnHitAnything(Entity target, int damage)
         {

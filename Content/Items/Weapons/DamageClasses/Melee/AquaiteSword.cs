@@ -39,7 +39,7 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Melee
         public override void AddRecipes()
         {
             CreateRecipe().
-                AddIngredient(ModContent.ItemType<Materials.Aquaite>(), 8).
+                AddIngredient(ModContent.ItemType<Materials.PrimalWater>(), 8).
                 AddCondition(Recipe.Condition.NearWater).
                 Register();
         }

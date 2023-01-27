@@ -18,12 +18,19 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Ranged
             Item.DamageType = DamageClass.Ranged;
             Item.useAmmo = AmmoID.Arrow;
             Item.damage = 11;
-            Item.shoot = 10;
+            Item.shoot = ProjectileID.WoodenArrowFriendly;
             Item.shootSpeed = 12f;
             Item.useStyle = 5;
             Item.useTime = 25;
             Item.useAnimation = 25;
             Item.autoReuse = true;
+        }
+        public override void AddRecipes()
+        {
+            CreateRecipe().
+                AddIngredient(ModContent.ItemType<Items.Materials.PrimalWater>(), 7).
+                AddCondition(Recipe.Condition.NearWater).
+                Register();
         }
     }
 }

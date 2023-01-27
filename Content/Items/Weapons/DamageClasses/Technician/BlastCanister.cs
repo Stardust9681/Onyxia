@@ -19,6 +19,11 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Technician
         {
             Item.staff[Item.type] = true;
         }
+        public override bool ChipUnlocked(int index)
+        {
+            Item? chip = GetChip(index);
+            return chip == null || chip.IsAir || chip.stack == 0;
+        }
         protected override void SafeSetDefaults()
         {
             Item.shoot = ProjectileID.HeatRay;

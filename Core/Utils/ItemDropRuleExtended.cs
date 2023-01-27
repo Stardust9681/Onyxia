@@ -14,7 +14,7 @@ namespace Onyxia.Core.Utils
         int minimum;
         int maximum;
         int type;
-        public IItemDropRuleCondition condition;
+        public IItemDropRuleCondition? condition;
         public ItemDropRuleNormal(int type, float chance = 1, int min = 1, int max = 1)
         {
             this.type = type;
@@ -22,9 +22,11 @@ namespace Onyxia.Core.Utils
             minimum = min;
             maximum = max;
         }
-        public bool CanDrop(DropAttemptInfo info) => condition.CanDrop(info);
+        public bool CanDrop(DropAttemptInfo info) => condition!=null?condition.CanDrop(info):true;
         public void ReportDroprates(List<DropRateInfo> info, DropRateInfoChainFeed feed)
         {
+            if (condition != null)
+                feed.AddCondition(condition);
             info.Add(new DropRateInfo(type, minimum, maximum, chance));
         }
         public ItemDropAttemptResult TryDroppingItem(DropAttemptInfo info)
@@ -41,11 +43,12 @@ namespace Onyxia.Core.Utils
             get;
             private set;
         }
-        public static IItemDropRule Common(int type, float chance = 1, int min = 1, int max = 1)
+        public ItemDropRuleNormal SetCondition(IItemDropRuleCondition cond) { condition = cond; return this; }
+        public static ItemDropRuleNormal Common(int type, float chance = 1, int min = 1, int max = 1)
         {
             return new ItemDropRuleNormal(type, chance, min, max);
         }
-        public static IItemDropRule Common<T>(float chance, int min = 1, int max = 1) where T : Terraria.ModLoader.ModItem
+        public static ItemDropRuleNormal Common<T>(float chance, int min = 1, int max = 1) where T : Terraria.ModLoader.ModItem
         {
             return Common(Terraria.ModLoader.ModContent.ItemType<T>(), chance, min, max);
         }
@@ -62,7 +65,7 @@ namespace Onyxia.Core.Utils
             showDrop = !global;
         }
         public string GetConditionDescription() => desc;
-        public bool CanDrop(DropAttemptInfo info) => canDrop.Invoke(info);
+        public bool CanDrop(DropAttemptInfo info) => !info.IsInSimulation?canDrop.Invoke(info):false;
         public bool CanShowItemDropInUI() => showDrop;
     }
 }

@@ -207,7 +207,19 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
             return ref modules[index%ModSlots];
         }
 
+        /// <summary>
+        /// Allows you to allow or disallow chip types. Return false to disallow a chip. Returns true by default.
+        /// </summary>
+        /// <param name="item">The new chip item</param>
+        /// <param name="index">Index of chip being replaced</param>
+        /// <returns></returns>
         public virtual bool AllowChip(Item item, int index) { return true; }
+        /// <summary>
+        /// Allows you to lock down specific chip indexes. Return false to prevent modification of an index. Returns true by default.
+        /// </summary>
+        /// <param name="index">Index of chip to be moved</param>
+        /// <returns></returns>
+        public virtual bool ChipUnlocked(int index) { return true; }
 
         public override void SaveData(TagCompound tag)
         {

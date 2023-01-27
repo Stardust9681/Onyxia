@@ -327,5 +327,16 @@ namespace Onyxia.Content
         {
             return OnyxiaSystem.Platform[NewPlatform<T>(position, fallOverride, jumpOverride)];
         }
+
+        public void netSend(System.IO.BinaryWriter writer)
+        {
+            writer.Write(position.X);
+            writer.Write(position.Y);
+        }
+        public void netReceive(System.IO.BinaryReader reader)
+        {
+            reader.ReadSingle();
+            reader.ReadSingle();
+        }
     }
 }

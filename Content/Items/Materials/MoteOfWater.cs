@@ -5,7 +5,7 @@ using Terraria.ModLoader.IO;
 
 namespace Onyxia.Content.Items.Materials
 {
-    class Aquaite : ModItem
+    public class MoteOfWater : ModItem
     {
         public override void SetDefaults()
         {
@@ -14,7 +14,7 @@ namespace Onyxia.Content.Items.Materials
             Item.value = 120*5;
             Item.rare = 1;
             Item.material = true;
-            Item.maxStack = 99;
+            Item.maxStack = 999;
         }
     }
 }

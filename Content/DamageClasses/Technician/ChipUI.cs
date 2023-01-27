@@ -82,6 +82,9 @@ namespace Onyxia.Content.DamageClasses.Technician
 
             if(Main.mouseLeft)
             {
+                //If the given index is locked down, don't run any further interactions.
+                if (!baseItem.ChipUnlocked(index))
+                    return;
                 if(!justSwapped && mouseHover)
                 {
                     if((Main.mouseItem.IsAir ^ item.IsAir) ||
@@ -156,7 +159,10 @@ namespace Onyxia.Content.DamageClasses.Technician
             drawRect.Location += new Point(3, 3);
             drawRect.Width -= 6;
             drawRect.Height -= 6;
-            spriteBatch.Draw(TextureAssets.InventoryBack.Value, drawRect, Color.White);
+            if (baseItem.ChipUnlocked(index))
+                spriteBatch.Draw(TextureAssets.InventoryBack9.Value, drawRect, Color.White);
+            else
+                spriteBatch.Draw(TextureAssets.InventoryBack5.Value, drawRect, Color.White);
 
             if (item == null || item.IsAir) return;
 

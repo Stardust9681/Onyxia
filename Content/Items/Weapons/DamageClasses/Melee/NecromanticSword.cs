@@ -15,14 +15,14 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Melee
     {
         public override void SetDefaults()
         {
-            Item.useTime = 23;
-            Item.useAnimation = 23;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
             Item.width = 44;
             Item.height = 44;
             Item.rare = 2;
             Item.useStyle = OnyxiaItem.CustomUsestyleID.Swipe;
             Item.DamageType = DamageClass.Melee;
-            Item.damage = 29;
+            Item.damage = 40;
             Item.knockBack = 1f;
             Item.autoReuse = true;
         }
@@ -40,8 +40,8 @@ namespace Onyxia.Content.Items.Weapons.DamageClasses.Melee
         {
             if (crit && (!target.friendly && !target.CountsAsACritter && target.type != NPCID.TargetDummy && target.canGhostHeal))
             {
-                player.statLife += damage / 5;
-                player.HealEffect(damage / 5);
+                player.statLife += 2*(crit?2:1);
+                player.HealEffect(2 * (crit ? 2 : 1));
             }
         }
     }
