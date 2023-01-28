@@ -50,9 +50,10 @@ namespace Onyxia
 
         internal ShieldState shieldState;
         private UserInterface _shieldInterface;
+        internal EnergyState energyState;
+        private UserInterface _energyInterface;
         public override void Load()
         {
-            Logging.PublicLogger.Debug("void ModSystem.Load()");
             shieldState = new ShieldState();
             shieldState.Activate();
             _shieldInterface = new UserInterface();
@@ -62,34 +63,44 @@ namespace Onyxia
             _techChipInterface = new UserInterface();
             _techChipInterface.SetState(null);
             TinkerKeybind = KeybindLoader.RegisterKeybind(Mod, "Onyxia::Tinker", Microsoft.Xna.Framework.Input.Keys.X);
+            energyState = new EnergyState();
+            energyState.Activate();
+            _energyInterface = new UserInterface();
+            _energyInterface.SetState(energyState);
             
         }
         public override void Unload()
         {
-            Logging.PublicLogger.Debug("void ModSystem.Unload()");
             TinkerKeybind = null;
         }
         public override void UpdateUI(GameTime gameTime)
         {
             _shieldInterface?.Update(gameTime);
             _techChipInterface?.Update(gameTime);
+            _energyInterface?.Update(gameTime);
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             //
             GameTime gt = new GameTime();
-            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Resource Bars"));
-            if (mouseTextIndex != -1)
+            //Up and stolen from ExampleMod, shoot me :D
+            int mouseTextIndex = -1;
+
+            if (Main.LocalPlayer.GetModPlayer<Technician>().hasShield)
             {
-                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "Onyxia: Technician Shield",
-                    ()=>
-                    {
-                        _shieldInterface?.Draw(Main.spriteBatch, gt);
-                        return true;
-                    },
-                    InterfaceScaleType.UI)
-                );
+                mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Resource Bars"));
+                if (mouseTextIndex != -1)
+                {
+                    layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                        "Onyxia: Technician Shield",
+                        () =>
+                        {
+                            _shieldInterface?.Draw(Main.spriteBatch, gt);
+                            return true;
+                        },
+                        InterfaceScaleType.UI)
+                    );
+                }
             }
             mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
             if (mouseTextIndex != -1)
@@ -104,6 +115,22 @@ namespace Onyxia
                     },
                     InterfaceScaleType.UI)
                 );
+            }
+            if(Main.LocalPlayer.HeldItem.ModItem.GetType().IsSubclassOf(typeof(TechItem)))
+            {
+                mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Resource Bars"));
+                if(mouseTextIndex != -1)
+                {
+                    layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                        "Onyxia: Technician Energy",
+                        () =>
+                        {
+                            _energyInterface?.Draw(Main.spriteBatch, gt);
+                            return true;
+                        },
+                        InterfaceScaleType.UI)
+                    );
+                }
             }
         }
 

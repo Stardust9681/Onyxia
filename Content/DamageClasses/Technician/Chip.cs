@@ -28,6 +28,8 @@ namespace Onyxia.Content.DamageClasses.Technician
         public virtual void UpdateShieldStats(ref uint shieldMax, ref uint cooldownMax, ref float regen, ref bool? knockback) { }
         public virtual bool AppliesToItem(Item item) { return true; }
         public virtual void ModifyProj(Projectile p) { }
+        public virtual bool SpawnProjs(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback, out Projectile[] newProjs)
+        { newProjs = null; return false; }
     }
 
     [Autoload(false)]

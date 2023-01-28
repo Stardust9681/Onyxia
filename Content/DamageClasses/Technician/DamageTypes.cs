@@ -12,14 +12,15 @@ using Terraria.GameContent;
 
 namespace Onyxia.Content.DamageClasses.Technician
 {
-    public abstract class TechDamageClass : DamageClass
+    public class TechDamageClass : DamageClass
     {
-        public abstract Color DamageColour { get; }
+        //public Color DamageColour { get; }
         public override void SetStaticDefaults()
         {
-            ClassName.SetDefault(GetType().Name + " damage.");
+            ClassName.SetDefault("Technical damage.");
         }
     }
+    /*
     public class Generic : TechDamageClass
     {
         public override Color DamageColour => Color.White;
@@ -104,13 +105,14 @@ namespace Onyxia.Content.DamageClasses.Technician
         public override Color DamageColour => Color.Cyan;
         public override StatInheritanceData GetModifierInheritance(DamageClass damageClass)
         {
-            if (damageClass == Generic) return StatInheritanceData.Full;
+            if (damageClass == Generic || damageClass == Magic) return StatInheritanceData.Full;
             return base.GetModifierInheritance(damageClass);
         }
         public override bool GetEffectInheritance(DamageClass damageClass)
         {
-            if (damageClass == Generic || damageClass == Magic) return true;
+            if (damageClass == Generic) return true;
             return base.GetEffectInheritance(damageClass);
         }
     }
+    */
 }

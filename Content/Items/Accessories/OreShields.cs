@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Onyxia.Content.DamageClasses.Technician;
+using Microsoft.Xna.Framework;
 
 namespace Onyxia.Content.Items.Accessories
 {
@@ -13,7 +14,7 @@ namespace Onyxia.Content.Items.Accessories
         public override string Texture => "Terraria/Images/Item_1";
         protected override void SafeSetDefaults()
         {
-            itemDamageType = ModContent.GetInstance<Infusion>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
             Item.accessory = true;
             Item.height = 40;
             Item.width = 40;
@@ -28,6 +29,7 @@ namespace Onyxia.Content.Items.Accessories
             this.shieldsMax = 25;
             this.cooldownTime = 200;
         }
+        public override Color ShieldColour => Color.MediumVioletRed;
     }
 
     public class TinShield : TechItem
@@ -35,7 +37,7 @@ namespace Onyxia.Content.Items.Accessories
         public override string Texture => "Terraria/Images/Item_1";
         protected override void SafeSetDefaults()
         {
-            itemDamageType = ModContent.GetInstance<Plated>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
             Item.accessory = true;
             Item.height = 40;
             Item.width = 40;
@@ -58,7 +60,7 @@ namespace Onyxia.Content.Items.Accessories
         public override string Texture => "Terraria/Images/Item_1";
         protected override void SafeSetDefaults()
         {
-            itemDamageType = ModContent.GetInstance<Energized>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
             Item.accessory = true;
             Item.height = 40;
             Item.width = 40;
@@ -84,7 +86,7 @@ namespace Onyxia.Content.Items.Accessories
         public override string Texture => "Terraria/Images/Item_1";
         protected override void SafeSetDefaults()
         {
-            itemDamageType = ModContent.GetInstance<Construct>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
             Item.accessory = true;
             Item.height = 40;
             Item.width = 40;
@@ -107,7 +109,7 @@ namespace Onyxia.Content.Items.Accessories
         public override string Texture => "Terraria/Images/Item_1";
         protected override void SafeSetDefaults()
         {
-            itemDamageType = ModContent.GetInstance<Blast>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
             Item.accessory = true;
             Item.height = 40;
             Item.width = 40;
@@ -133,7 +135,7 @@ namespace Onyxia.Content.Items.Accessories
         public override string Texture => "Terraria/Images/Item_1";
         protected override void SafeSetDefaults()
         {
-            itemDamageType = ModContent.GetInstance<Generic>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
             Item.accessory = true;
             Item.height = 40;
             Item.width = 40;

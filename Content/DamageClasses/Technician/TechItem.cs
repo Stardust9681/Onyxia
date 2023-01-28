@@ -71,6 +71,8 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();
+            //if (chipSlots < 2)
+                //chipSlots = 2;
             modules = new Item[chipSlots];
             for(int i = 0; i < chipSlots; i++)
             {
@@ -78,12 +80,18 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
             }
             if(itemDamageType == null)
             {
-                itemDamageType = ModContent.GetInstance<Generic>();
+                itemDamageType = ModContent.GetInstance<TechDamageClass>();
             }
             Item.DamageType = itemDamageType;
             VolatileSetDefaults();
-            Logging.PublicLogger.Info("Loading " + GetType().Name + " shield: " + Shield?.GetType().Name);
+            //Logging.PublicLogger.Info("Loading " + GetType().Name + " shield: " + Shield?.GetType().Name);
+        }
 
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            if (!IsShield || Shield==null)
+                return;
+            tooltips.Add(new TooltipLine(Mod, "Tooltip10", "Shields: " + Shield.shieldsMax));
         }
 
         //Inherited ModifyWeaponDamage
@@ -118,7 +126,7 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
             }
             if (IsShield && Item.wornArmor)
             {
-                modPlayer.AddShield(Shield, itemDamageType);
+                modPlayer.AddShield(Shield, Shield.ShieldColour);
             }
             PostUpdateEquip(player);
         }
@@ -140,7 +148,7 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
             }
             if(IsShield)
             {
-                modPlayer.AddShield(Shield, itemDamageType);
+                modPlayer.AddShield(Shield, Shield.ShieldColour);
             }
             PostUpdateAccessory(player, hideVisual);
         }
@@ -181,14 +189,28 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
             return true;
         }
 
+        private delegate void ModProj(Projectile p);
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            Projectile p = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI);
-            for (int i = 0; i < ModSlots; i++)
+            List<Projectile> p2 = new List<Projectile>();
+            ModProj func = x => { };
+            p2.Add(Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI));
+            for(int i = 0; i < ModSlots; i++)
             {
                 Item? it = modules[i];
                 if (it == null || it.IsAir || it.ModItem == null) continue;
-                (it.ModItem as Chip)?.ModifyProj(p);
+                if((it.ModItem as Chip)?.SpawnProjs(player, source, position, velocity, type, damage, knockback, out Projectile[] p1) == true)
+                {
+                    foreach(Projectile p in p1)
+                    {
+                        p2.Add(p);
+                    }
+                }
+                func += (it.ModItem as Chip).ModifyProj;
+            }
+            foreach (Projectile p in p2)
+            {
+                func.Invoke(p);
             }
             return false;
         }
@@ -246,7 +268,7 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
     {
         protected override void SafeSetDefaults()
         {
-            itemDamageType = ModContent.GetInstance<Generic>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
         }
         //public override TechDamageClass ItemDamageType => ModContent.GetInstance<Generic>();
     }
@@ -261,6 +283,11 @@ For deep-cloning, add a custom Clone override and make proper copies of these fi
         public bool ignoreKb;
         public float damageResist;
         public float priority = .5f;
+
+        public virtual Color ShieldColour
+        {
+            get;
+        } = Color.White;
 
         public void Init()
         {

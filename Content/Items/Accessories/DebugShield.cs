@@ -16,7 +16,7 @@ namespace Onyxia.Content.Items.Accessories
         {
             //this.shieldsMax = 100;
             //this.shieldCooldown = 180;
-            itemDamageType = ModContent.GetInstance<Blast>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
             Item.accessory = true;
             Item.height = 40;
             Item.width = 40;
@@ -33,7 +33,7 @@ namespace Onyxia.Content.Items.Accessories
         {
             //this.shieldsMax = 100;
             //this.shieldCooldown = 180;
-            itemDamageType = ModContent.GetInstance<Infusion>();
+            itemDamageType = ModContent.GetInstance<TechDamageClass>();
             Item.accessory = true;
             Item.height = 40;
             Item.width = 40;

@@ -188,7 +188,7 @@ namespace Onyxia.Content.DamageClasses.Technician
             int lng = tItem.ModSlots;
             this.HAlign = .5f;
             this.VAlign = .334f;
-            this.Width.Set(lng*size, 0);
+            this.Width.Set(MathHelper.Clamp(lng*size, size*3, float.MaxValue), 0);
             this.Height.Set(size*1.5f, 0);
             rect = new Rectangle((int)(HAlign * Main.screenWidth), (int)(VAlign * Main.screenHeight), (int)Width.Pixels, (int)Height.Pixels);
             for (int i = 0; i < lng; i++)
@@ -248,11 +248,11 @@ namespace Onyxia.Content.DamageClasses.Technician
         }
         private void UpdateChildPositions()
         {
-            float vAdj = (.5f * (float)size / Main.screenHeight);
+            //float vAdj = (.5f * (float)size / Main.screenHeight);
             for (int i = 0; i < Elements.Count; i++)
             {
                 Elements[i].Top.Set(rect.Y + (int)(size * .5f), 0);
-                Elements[i].Left.Set(rect.X + (int)(i * size), 0);
+                Elements[i].Left.Set(rect.Center.X + (int)((i-(Elements.Count*.5f)) * size), 0);
             }
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
